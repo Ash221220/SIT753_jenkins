@@ -71,6 +71,12 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                echo 'Running test command...'
+                bat 'npm test'
+            }
+        }
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image for Snaprition...'
@@ -92,12 +98,6 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                echo 'Running test command...'
-                bat 'npm test'
-            }
-        }
     }
 
     post {
