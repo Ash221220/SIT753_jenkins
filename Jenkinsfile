@@ -111,6 +111,18 @@ pipeline {
             '''
         }
     }
+    stage('Monitoring and Alerting') {
+        steps {
+            echo 'Monitoring production container health...'
+
+            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                bat '''
+                docker ps --filter "name=snaprition-frontend-production"
+                curl http://localhost:8082
+                '''
+            }
+        }
+    }
 
     post {
         always {
