@@ -8,7 +8,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "audit": "npm audit --audit-level=moderate || true",
+    "audit": "npm audit --audit-level=moderate",
     "lint": "expo lint",
     "test": "echo \"No automated tests configured yet\" && exit 0"
   },
