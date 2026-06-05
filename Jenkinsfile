@@ -71,6 +71,27 @@ pipeline {
             }
         }
 
+        stage('Docker Build') {
+            steps {
+                echo 'Building Docker image for Snaprition...'
+                bat 'docker build -t snaprition-frontend:latest .'
+            }
+        }
+
+        stage('Docker Staging Validation') {
+            steps {
+                echo 'Running Snaprition frontend container for staging validation...'
+
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    bat '''
+                    docker rm -f snaprition-frontend-staging || exit /b 0
+                    docker run -d --name snaprition-frontend-staging -p 8081:8081 snaprition-frontend:latest
+                    docker ps
+                    '''
+                }
+            }
+        }
+
         stage('Test') {
             steps {
                 echo 'Running test command...'
