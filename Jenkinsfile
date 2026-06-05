@@ -41,15 +41,19 @@ pipeline {
             steps {
                 echo 'Running SonarQube static code analysis...'
 
-                withSonarQubeEnv('SonarQube') {
-                    bat """
-                    sonar-scanner.bat ^
-                    -Dsonar.projectKey=snaprition ^
-                    -Dsonar.projectName=Snaprition ^
-                    -Dsonar.sources=. ^
-                    -Dsonar.exclusions=node_modules/**,.expo/**,dist/**,build/**,coverage/** ^
-                    -Dsonar.host.url=http://localhost:9000
-                    """
+                script {
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQube') {
+                        bat """
+                        "${scannerHome}\\bin\\sonar-scanner.bat" ^
+                        -Dsonar.projectKey=snaprition ^
+                        -Dsonar.projectName=Snaprition ^
+                        -Dsonar.sources=. ^
+                        -Dsonar.exclusions=node_modules/**,.expo/**,dist/**,build/**,coverage/** ^
+                        -Dsonar.host.url=http://localhost:9000
+                        """
+                    }
                 }
             }
         }
