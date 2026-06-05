@@ -44,16 +44,18 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarScanner'
 
-                    withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                        bat """
-                        "${scannerHome}\\bin\\sonar-scanner.bat" ^
-                        -Dsonar.projectKey=snaprition ^
-                        -Dsonar.projectName=Snaprition ^
-                        -Dsonar.sources=. ^
-                        -Dsonar.exclusions=node_modules/**,.expo/**,dist/**,build/**,coverage/** ^
-                        -Dsonar.host.url=http://localhost:9000 ^
-                        -Dsonar.token=%SONAR_TOKEN%
-                        """
+                    withSonarQubeEnv('SonarQube') {
+                        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                            bat """
+                            "${scannerHome}\\bin\\sonar-scanner.bat" ^
+                            -Dsonar.projectKey=snaprition ^
+                            -Dsonar.projectName=Snaprition ^
+                            -Dsonar.sources=. ^
+                            -Dsonar.exclusions=node_modules/**,.expo/**,dist/**,build/**,coverage/** ^
+                            -Dsonar.host.url=http://localhost:9000 ^
+                            -Dsonar.token=%SONAR_TOKEN%
+                            """
+                        }
                     }
                 }
             }
