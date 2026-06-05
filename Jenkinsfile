@@ -37,6 +37,23 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube static code analysis...'
+
+                withSonarQubeEnv('SonarQube') {
+                    bat """
+                    sonar-scanner.bat ^
+                    -Dsonar.projectKey=snaprition ^
+                    -Dsonar.projectName=Snaprition ^
+                    -Dsonar.sources=. ^
+                    -Dsonar.exclusions=node_modules/**,.expo/**,dist/**,build/**,coverage/** ^
+                    -Dsonar.host.url=http://localhost:9000
+                    """
+                }
+            }
+        }
+
         stage('Test') {
             steps {
                 echo 'Running test command...'
