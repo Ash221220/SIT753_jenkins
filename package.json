@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "audit": "npm audit --audit-level=moderate",
     "lint": "expo lint",
-    "test": "echo \"No automated tests configured yet\" && exit 0"
+    "test": "jest"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -50,6 +50,7 @@
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "jest": "^30.4.2",
     "typescript": "~5.9.2"
   },
   "private": true
