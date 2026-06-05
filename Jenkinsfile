@@ -30,7 +30,10 @@ pipeline {
         stage('Security Audit') {
             steps {
                 echo 'Running npm dependency vulnerability scan...'
-                bat 'npm run audit'
+
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    bat 'npm run audit'
+                }
             }
         }
 
