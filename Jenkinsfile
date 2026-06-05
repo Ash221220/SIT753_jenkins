@@ -99,6 +99,18 @@ pipeline {
         }
 
     }
+    stage('Release to Production') {
+        steps {
+            echo 'Releasing Snaprition frontend to production container...'
+
+            bat '''
+            docker tag snaprition-frontend:latest snaprition-frontend:production
+            docker rm -f snaprition-frontend-production || exit /b 0
+            docker run -d --name snaprition-frontend-production -p 8082:8081 snaprition-frontend:production
+            docker ps
+            '''
+        }
+    }
 
     post {
         always {
